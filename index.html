@@ -53,7 +53,7 @@
             color: #ccc;
         }
 
-        h2 {
+        h2, h3 {
             color: #fff;
         }
 
@@ -61,6 +61,15 @@
             display: block;
             margin: 0 auto 20px;
             max-width: 150px;
+        }
+
+        video {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+
+        canvas {
+            display: none;
         }
 
         /* Responsive Design */
@@ -73,24 +82,72 @@
 </head>
 <body>
 
-    <form action="/submit-receipt" method="POST" enctype="multipart/form-data">
+    <form id="receiptForm" action="https://script.google.com/macros/s/AKfycby_Swj_Sq85J8jdTltSRHMChjYdMlPTKVA7xloEZGaJz0VSkBKDwOrATQ2fth6h2hw/exec" method="POST" enctype="multipart/form-data">
         <!-- OIEB Logo at the top -->
         <img src="ACU OIEB Vertical Logo White.png" alt="OIEB Logo">
-        <form action="https://script.google.com/macros/s/AKfycby_Swj_Sq85J8jdTltSRHMChjYdMlPTKVA7xloEZGaJz0VSkBKDwOrATQ2fth6h2hw/exec" method="POST" enctype="multipart/form-data">
+
+        <!-- Personalized greeting -->
+        <h3 id="greeting">Hello, please select your name below!</h3>
 
         <h2>Submit Your Receipt</h2>
 
-        <!-- Name of the person submitting the receipt -->
+        <!-- Dropdown for user selection -->
         <label for="name">Submitter Name:</label>
-        <input type="text" id="name" name="name" required>
+        <select id="name" name="name" onchange="updateGreeting()" required>
+            <option value="" disabled selected>Select your name</option>
+            <option value="Abel Alvarez">Abel Alvarez</option>
+            <option value="Angie Cardenas">Angie Cardenas</option>
+            <option value="Anthony Williams">Anthony Williams</option>
+        </select>
 
         <!-- Upload the receipt file -->
         <label for="receipt">Upload Receipt:</label>
-        <input type="file" id="receipt" name="receipt" accept="image/*,.pdf" required>
+        <input type="file" id="receipt" name="receipt" accept="image/*,.pdf">
+
+        <!-- Camera capture option -->
+        <h3>Or take a picture of the receipt:</h3>
+        <video id="video" autoplay></video>
+        <button type="button" id="capture" onclick="captureImage()">Take Picture</button>
+        <canvas id="canvas"></canvas>
+        <input type="hidden" id="imageData" name="imageData">
 
         <!-- Submit button -->
         <button type="submit">Submit Receipt</button>
     </form>
+
+    <script>
+        // Function to update the greeting when the user selects their name
+        function updateGreeting() {
+            const name = document.getElementById("name").value;
+            document.getElementById("greeting").innerText = `Hello, ${name}!`;
+        }
+
+        // Access the user's camera and stream the video
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const imageDataInput = document.getElementById("imageData");
+
+        // Request permission to access the camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing the camera: " + err);
+            });
+
+        // Capture the image from the video stream and display it in the form
+        function captureImage() {
+            const context = canvas.getContext("2d");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the image to a data URL and store it in the hidden input field
+            const imageDataUrl = canvas.toDataURL("image/png");
+            imageDataInput.value = imageDataUrl;
+        }
+    </script>
 
 </body>
 </html>
