@@ -9,20 +9,21 @@
     <style>
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #282828;
-            color: #f4f4f4;
+            background-color: #000; /* Pitch black background */
+            color: #00ff88; /* Green text color */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
 
         form {
-            background-color: #333;
+            background-color: rgba(255, 255, 255, 0.1); /* Slight transparency for form background */
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); /* Green shadow */
             width: 100%;
             max-width: 500px;
             text-align: center;
@@ -35,26 +36,35 @@
             box-sizing: border-box;
             border: none;
             border-radius: 5px;
+            color: #00ff88;
         }
 
         input, select {
-            background-color: #444;
-            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent input fields */
         }
 
         button {
-            background-color: #9400D3;
-            color: #fff;
+            background-color: #00ff88;
+            color: #000;
             cursor: pointer;
             font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #00cc6e;
         }
 
         label {
-            color: #ccc;
+            color: #00ff88;
         }
 
         h2, h3 {
-            color: #fff;
+            color: #00ff88;
+            background: linear-gradient(to right, #00ff88, #00cc6e);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradient 2s ease infinite;
         }
 
         img {
@@ -63,13 +73,13 @@
             max-width: 150px;
         }
 
-        video {
-            max-width: 100%;
-            margin-top: 10px;
-        }
-
-        canvas {
-            display: none;
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
         }
 
         /* Responsive Design */
@@ -102,14 +112,7 @@
 
         <!-- Upload the receipt file -->
         <label for="receipt">Upload Receipt:</label>
-        <input type="file" id="receipt" name="receipt" accept="image/*,.pdf">
-
-        <!-- Camera capture option -->
-        <h3>Or take a picture of the receipt:</h3>
-        <video id="video" autoplay></video>
-        <button type="button" id="capture" onclick="captureImage()">Take Picture</button>
-        <canvas id="canvas"></canvas>
-        <input type="hidden" id="imageData" name="imageData">
+        <input type="file" id="receipt" name="receipt" accept="image/*,.pdf" required>
 
         <!-- Submit button -->
         <button type="submit">Submit Receipt</button>
@@ -120,32 +123,6 @@
         function updateGreeting() {
             const name = document.getElementById("name").value;
             document.getElementById("greeting").innerText = `Hello, ${name}!`;
-        }
-
-        // Access the user's camera and stream the video
-        const video = document.getElementById("video");
-        const canvas = document.getElementById("canvas");
-        const imageDataInput = document.getElementById("imageData");
-
-        // Request permission to access the camera
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
-            })
-            .catch(err => {
-                console.error("Error accessing the camera: " + err);
-            });
-
-        // Capture the image from the video stream and display it in the form
-        function captureImage() {
-            const context = canvas.getContext("2d");
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            // Convert the image to a data URL and store it in the hidden input field
-            const imageDataUrl = canvas.toDataURL("image/png");
-            imageDataInput.value = imageDataUrl;
         }
     </script>
 
