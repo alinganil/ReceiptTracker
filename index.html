@@ -9,8 +9,8 @@
     <style>
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #000; /* Pitch black background */
-            color: #00ff88; /* Green text color */
+            background-color: #1C1C1E; /* Darker pitch-black background for a modern look */
+            color: #AC7CC8; /* ACU Purple */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,23 +20,25 @@
         }
 
         form {
-            background-color: rgba(255, 255, 255, 0.1); /* Slight transparency for form background */
+            background-color: rgba(255, 255, 255, 0.08); /* Subtle transparency for form background */
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); /* Green shadow */
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(172, 124, 200, 0.5); /* ACU Purple glow */
             width: 100%;
             max-width: 500px;
             text-align: center;
+            backdrop-filter: blur(10px); /* Slight glass effect */
         }
 
         input, select, button {
-            margin: 10px 0;
-            padding: 10px;
+            margin: 12px 0;
+            padding: 12px;
             width: 100%;
             box-sizing: border-box;
             border: none;
-            border-radius: 5px;
-            color: #00ff88;
+            border-radius: 8px;
+            color: #AC7CC8;
+            font-size: 1.1rem;
         }
 
         input, select {
@@ -44,27 +46,30 @@
         }
 
         button {
-            background-color: #00ff88;
-            color: #000;
+            background-color: #AC7CC8;
+            color: #fff;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.3s ease-in-out;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
 
         button:hover {
-            background-color: #00cc6e;
+            background-color: #833399;
+            transform: scale(1.05); /* Slight zoom-in effect on hover */
         }
 
         label {
-            color: #00ff88;
+            color: #AC7CC8;
+            font-size: 1rem;
         }
 
         h2, h3 {
-            color: #00ff88;
-            background: linear-gradient(to right, #00ff88, #00cc6e);
+            color: #AC7CC8;
+            background: linear-gradient(90deg, #AC7CC8, #833399, #E4C1F9);
             -webkit-background-clip: text;
             color: transparent;
-            animation: gradient 2s ease infinite;
+            animation: gradient 3s ease infinite;
         }
 
         img {
